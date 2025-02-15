@@ -14,8 +14,8 @@ class Session {
 
     public Session(String sessionName, String fitnessLevel, String day, String startTime, int duration, int availableSpaces) {
         //for every new instance of a session, the sessionID is incremented to ensure that it is unique
+        sessionID = idCounter++;
         //"this" is used to refer to the properties of the Session class that were declared
-        this.sessionID = idCounter++;
         this.sessionName = sessionName;
         this.fitnessLevel = fitnessLevel;
         this.day = day;
