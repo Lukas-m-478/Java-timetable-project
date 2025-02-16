@@ -28,7 +28,7 @@ class Session {
         return sessionID;
     }
 
-    //setter method for available spaces
+    //setter method to update available spaces
     public void updateSpaces(int change) {
         availableSpaces += change;
     }
@@ -56,6 +56,7 @@ public class FitAll {
         //creates the sessions
         fitAll.initializeSessions();
         //initially prints timetable so user can see
+        System.out.println("\nWelcome to the FitAll club!\n");
         fitAll.printTimetable();
         //runs menu
         fitAll.runMenu();
@@ -75,14 +76,14 @@ public class FitAll {
     private void runMenu() {
         //while loop used for exception handling
         while (true) {
-            System.out.println("1. View Timetable\n2. Register for Session\n3. Cancel Registration\n4. Exit");
+            System.out.println("1. View Timetable\n2. Register for Session\n3. Cancel Registration\n4. Exit\n");
             System.out.print("Enter your choice: ");
             int choice = 0;
             try{
                 choice = scanner.nextInt();
             }
             catch (Exception e) {
-                System.out.println("Invalid input. Input should be a number from 1-4.");
+                System.out.println("\nInvalid input. Input should be a number from 1-4.");
                 //scanner.nextLine() clears the scanner to prevent an infinite loop
                 scanner.nextLine();
                 continue;
@@ -100,9 +101,10 @@ public class FitAll {
                     cancelRegistration();
                     break;
                 case 4:
+                    //ends program by returning to main method which has finished itself
                     return;
                 default:
-                    System.out.println("Invalid number. Try again.");
+                    System.out.println("\nInvalid number. Try again.");
                     scanner.nextLine();
             }
         }
@@ -116,34 +118,39 @@ public class FitAll {
         for (int i = 0; i < sessions.length; i++) {
             sessions[i].printSession();
         }
+        //prints an empty line for spacing
+        System.out.println();
     }
 
     private void registerSession() {
         //while loop used for exception handling
         while (true) {
-        System.out.print("Enter Session ID to register: ");
+        System.out.print("\nEnter Session ID to register: ");
         //declares id variable so it can be modified for user input
         int id = 0;
+        //try catch is used to check if input is an integer
         try{
             id = scanner.nextInt();
         }
         catch (Exception e){
-            System.out.println("Invalid input. Input should be a number. ");
+            System.out.println("\nInvalid input. Input should be a number. ");
             //scanner.nextLine() clears the scanner to prevent an infinite loop
             scanner.nextLine();
             //continue used to repeat the while loop from start, so user can try again
             continue;
         }
         for (int i = 0; i < sessions.length; i++) {
+            //checks if id matches and if there are any available spaces
             if (sessions[i].getSessionID() == id && sessions[i].getAvailableSpaces() > 0) {
-                //calls setter method to change the number of spaces in the table
+                //calls setter method to decrease the number of spaces in the table by 1, by passing in -1
+                //as an argument to the updateSpaces class
                 sessions[i].updateSpaces(-1);
-                System.out.println("Successfully registered!");
+                System.out.println("\nSuccessfully registered! ");
                 return;
             }
         }
         //Displays message if user fails to register
-        System.out.println("Incorrect ID or no more spaces left.\nCheck the table and try again. ");
+        System.out.println("\nIncorrect ID or no more spaces left.\nCheck the table and try again. ");
     }
 }
 
@@ -156,22 +163,24 @@ public class FitAll {
             id = scanner.nextInt();
         }
         catch (Exception e){
-            System.out.println("Invalid input");
+            System.out.println("\nInvalid input. Try again. ");
             //scanner.nextLine() clears the scanner to prevent an infinite loop
             scanner.nextLine();
             //continue used to repeat the while loop from start, so user can try again
             continue;
         }
         for (int i = 0; i < sessions.length; i++) {
+            //checks if user enters a valid id
             if (sessions[i].getSessionID() == id) {
-                //calls setter method to change the number of spaces in the table
+                //calls setter method to increase the number of spaces in the table by 1, by passing in 1
+                //as an argument to the updateSpaces class
                 sessions[i].updateSpaces(1);
-                System.out.println("Registration cancelled.");
+                System.out.println("\nRegistration cancelled. ");
                 return;
                 }
             }
             //Displays message if user fails to cancel registration
-            System.out.println("Incorrect ID.\nCheck the table and try again. ");
+            System.out.println("\nIncorrect ID.\nCheck the table and try again. ");
         }
     }
 }
