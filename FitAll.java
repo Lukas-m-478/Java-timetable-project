@@ -47,6 +47,7 @@ class Session {
 public class FitAll {
     //array of length 7 created to store values of table
     private static Session[] sessions = new Session[7];
+    private static int[] registeredSessions = new int[7];
     private static Scanner scanner = new Scanner(System.in);
 
     //main method used to create a session
@@ -77,7 +78,7 @@ public class FitAll {
         //while loop used for exception handling
         while (true) {
             System.out.println("\nMain menu:");
-            System.out.println("\n1. View Timetable\n2. Register for Session\n3. Cancel Registration\n4. Exit");
+            System.out.println("\n1. View timetable\n2. Register for session\n3. Cancel registration\n4. Exit");
             System.out.print("Enter your choice: ");
             int choice = 0;
             try{
@@ -122,9 +123,11 @@ public class FitAll {
     }
 
     private void registerSession() {
+
         //while loop used for exception handling
         while (true) {
         System.out.print("\nEnter Session ID to register: ");
+        System.out.println("\nEnter -1 to return to main menu");
         //declares id variable so it can be modified for user input
         int id = 0;
         //try catch is used to check if input is an integer
@@ -138,12 +141,25 @@ public class FitAll {
             //continue used to repeat the while loop from start, so user can try again
             continue;
         }
+        //if statement used so user can return to menu if needed
+        if (id == -1) {
+            return;
+        }
         for (int i = 0; i < sessions.length; i++) {
             //checks if id matches and if there are any available spaces
             if (sessions[i].getSessionID() == id && sessions[i].getAvailableSpaces() > 0) {
+                //checks if user has registered already for a session
+                for (int x = 0; x < 7; x++) {
+                    if (registeredSessions[x] == id) {
+                        System.out.println("You are already registered for this session");
+                        return;
+                    }
+                }
                 //calls setter method to decrease the number of spaces in the table by 1, by passing in -1
                 //as an argument to the updateSpaces class
                 sessions[i].updateSpaces(-1);
+                //add the id into the array into required index registeredSessions to show that user has registered for that session
+                registeredSessions[i] = id;
                 System.out.println("\nSuccessfully registered! ");
                 return;
             }
@@ -156,7 +172,8 @@ public class FitAll {
     private void cancelRegistration() {
         //while loop used for exception handling
         while (true) {
-        System.out.print("Enter Session ID to cancel registration: ");
+        System.out.println("Enter Session ID to cancel registration: ");
+        System.out.println("\nEnter -1 to return to main menu");
         int id = 0;
         try{
             id = scanner.nextInt();
@@ -168,6 +185,24 @@ public class FitAll {
             //continue used to repeat the while loop from start, so user can try again
             continue;
         }
+        //if statement used so user can return to menu if needed
+        if (id == -1) {
+            return;
+        }
+        //use index = -1 to check if user has registered for session
+        int index = -1;
+        for (int i = 0; i < 7; i++) {
+            if (registeredSessions[i] == id) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("\nYou are not registered for this session.");
+            continue;
+        }
+
         for (int i = 0; i < sessions.length; i++) {
             //checks if user enters a valid id
             if (sessions[i].getSessionID() == id) {
@@ -175,6 +210,7 @@ public class FitAll {
                 //as an argument to the updateSpaces class
                 sessions[i].updateSpaces(1);
                 System.out.println("\nRegistration cancelled. ");
+                registeredSessions[i] = -1;
                 return;
                 }
             }
