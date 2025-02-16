@@ -49,6 +49,7 @@ public class FitAll {
     private static Session[] sessions = new Session[7];
     private static int[] registeredSessions = new int[7];
     private static Scanner scanner = new Scanner(System.in);
+    private static int registeredSessionsNumber = 0;
 
     //main method used to create a session
     public static void main(String[] args) {
@@ -65,13 +66,13 @@ public class FitAll {
 
     private void initializeSessions() {
         //adds values to esch index of the created array
-        sessions[0] = new Session("Pilates", "Low", "Monday", "13:00", 55, 15);
-        sessions[1] = new Session("Yoga", "Low", "Friday", "18:00", 55, 15);
-        sessions[2] = new Session("Core", "Medium", "Tuesday", "19:00", 55, 20);
-        sessions[3] = new Session("Pump", "Medium", "Tuesday", "10:00", 55, 20);
-        sessions[4] = new Session("Yoga", "Medium", "Wednesday", "12:00", 55, 15);
-        sessions[5] = new Session("Core", "High", "Thursday", "18:00", 45, 20);
-        sessions[6] = new Session("Cycling", "High", "Wednesday", "09:00", 45, 10);
+        sessions[0] = new Session("Cycling", "High", "Thursday", "10:00", 45, 20);
+        sessions[1] = new Session("Core", "Medium", "Monday", "14:00", 55, 15);
+        sessions[2] = new Session("Yoga", "Low", "Saturday", "09:00", 55, 10);
+        sessions[3] = new Session("Pump", "High", "Tuesday", "18:00", 45, 15);
+        sessions[4] = new Session("Pilates", "Medium", "Wednesday", "12:00", 55, 20);
+        sessions[5] = new Session("Core", "Low", "Friday", "17:00", 45, 10);
+        sessions[6] = new Session("Yoga", "High", "Sunday", "11:00", 55, 15);
     }
 
     private void runMenu() {
@@ -115,6 +116,7 @@ public class FitAll {
     //method prints the timetable by firstly printing the first row then iterating the printSession method which
     //prints an individual new row that contains the contents of the timetable
     private void printTimetable() {
+        System.out.println("\nNumber of registered sessions:" + registeredSessionsNumber);
         //each entry has a space of 10 characters so it can be formatted nicely
         System.out.printf("\n%-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "SessionID", "Name", "Level", "Day", "Time", "Duration", "Spaces");
         for (int i = 0; i < sessions.length; i++) {
@@ -161,6 +163,8 @@ public class FitAll {
                 //add the id into the array into required index registeredSessions to show that user has registered for that session
                 registeredSessions[i] = id;
                 System.out.println("\nSuccessfully registered! ");
+                //increment registeredSessionsNumber by 1
+                registeredSessionsNumber++;
                 return;
             }
         }
@@ -211,6 +215,8 @@ public class FitAll {
                 sessions[i].updateSpaces(1);
                 System.out.println("\nRegistration cancelled. ");
                 registeredSessions[i] = -1;
+                //decrement registeredSessionsNumber by 1
+                registeredSessionsNumber--;
                 return;
                 }
             }
