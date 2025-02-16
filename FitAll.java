@@ -56,7 +56,7 @@ public class FitAll {
         //creates the sessions
         fitAll.initializeSessions();
         //initially prints timetable so user can see
-        System.out.println("\nWelcome to the FitAll club!\n");
+        System.out.println("\nWelcome to the FitAll club!");
         fitAll.printTimetable();
         //runs menu
         fitAll.runMenu();
@@ -76,7 +76,8 @@ public class FitAll {
     private void runMenu() {
         //while loop used for exception handling
         while (true) {
-            System.out.println("1. View Timetable\n2. Register for Session\n3. Cancel Registration\n4. Exit\n");
+            System.out.println("\nMain menu:");
+            System.out.println("\n1. View Timetable\n2. Register for Session\n3. Cancel Registration\n4. Exit");
             System.out.print("Enter your choice: ");
             int choice = 0;
             try{
@@ -114,12 +115,10 @@ public class FitAll {
     //prints an individual new row that contains the contents of the timetable
     private void printTimetable() {
         //each entry has a space of 10 characters so it can be formatted nicely
-        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "SessionID", "Name", "Level", "Day", "Time", "Duration", "Spaces");
+        System.out.printf("\n%-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "SessionID", "Name", "Level", "Day", "Time", "Duration", "Spaces");
         for (int i = 0; i < sessions.length; i++) {
             sessions[i].printSession();
         }
-        //prints an empty line for spacing
-        System.out.println();
     }
 
     private void registerSession() {
