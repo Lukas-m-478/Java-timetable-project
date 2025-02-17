@@ -1,6 +1,4 @@
 //import scanner class so user input can be taken in
-import jdk.jfr.Registered;
-
 import java.util.Scanner;
 
 class Session {
@@ -46,7 +44,7 @@ class Session {
     }
 
     //method used to display registered sessions but without showing available spaces
-    public void printRegiateredSession() {
+    public void printRegisteredSession() {
         System.out.printf("%-10d %-10s %-10s %-10s %-10s %-10d\n", sessionID, sessionName, fitnessLevel, day, startTime, duration);
     }
 }
@@ -82,7 +80,7 @@ public class FitAll {
         sessions[6] = new Session("Yoga", "High", "Sunday", "11:00", 55, 15);
 
         //set every item in every index in registeredSessions to -1 so that it can be used to
-        //check if there are no registered sessions in viewRegistered
+        //check if there are no registered sessions in viewRegisteredSessions
         registeredSessions[0] = -1;
         registeredSessions[1] = -1;
         registeredSessions[2] = -1;
@@ -198,7 +196,7 @@ public class FitAll {
         //while loop used for exception handling
         while (true) {
         System.out.println("Enter Session ID to cancel registration: ");
-        System.out.println("\nEnter -1 to return to main menu");
+        System.out.println("\nEnter -1 to return to main menu if needed\n");
         int id = 0;
         try{
             id = scanner.nextInt();
@@ -225,6 +223,7 @@ public class FitAll {
 
         if (index == -1) {
             System.out.println("\nYou are not registered for this session.");
+            System.out.println("Check the table and try again.\n");
             continue;
         }
 
@@ -241,8 +240,6 @@ public class FitAll {
                 return;
                 }
             }
-            //Displays message if user fails to cancel registration
-            System.out.println("\nIncorrect ID.\nCheck the table and try again. ");
         }
     }
 
@@ -255,12 +252,12 @@ public class FitAll {
            //if value is not -1, it means the user has registered for that session
            //so session will be printed
            if (registeredSessions[i] != -1) {
-               sessions[i].printRegiateredSession();
+               sessions[i].printRegisteredSession();
                exists = true;
            }
        }
        //displays message if user has not registered for any sessions
-       if (exists == false) {
+       if (!exists) {
             System.out.println("You have not registered for any sessions.");
        }
     }
