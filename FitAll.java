@@ -1,4 +1,6 @@
 //import scanner class so user input can be taken in
+import jdk.jfr.Registered;
+
 import java.util.Scanner;
 
 class Session {
@@ -42,6 +44,11 @@ class Session {
     public void printSession() {
         System.out.printf("%-10d %-10s %-10s %-10s %-10s %-10d %-10d\n", sessionID, sessionName, fitnessLevel, day, startTime, duration, availableSpaces);
     }
+
+    //method used to display registered sessions but without showing available spaces
+    public void printRegiateredSession() {
+        System.out.printf("%-10d %-10s %-10s %-10s %-10s %-10d\n", sessionID, sessionName, fitnessLevel, day, startTime, duration);
+    }
 }
 
 public class FitAll {
@@ -73,13 +80,23 @@ public class FitAll {
         sessions[4] = new Session("Pilates", "Medium", "Wednesday", "12:00", 55, 20);
         sessions[5] = new Session("Core", "Low", "Friday", "17:00", 45, 10);
         sessions[6] = new Session("Yoga", "High", "Sunday", "11:00", 55, 15);
+
+        //set every item in every index in registeredSessions to -1 so that it can be used to
+        //check if there are no registered sessions in viewRegistered
+        registeredSessions[0] = -1;
+        registeredSessions[1] = -1;
+        registeredSessions[2] = -1;
+        registeredSessions[3] = -1;
+        registeredSessions[4] = -1;
+        registeredSessions[5] = -1;
+        registeredSessions[6] = -1;
     }
 
     private void runMenu() {
         //while loop used for exception handling
         while (true) {
             System.out.println("\nMain menu:");
-            System.out.println("\n1. View timetable\n2. Register for session\n3. Cancel registration\n4. Exit");
+            System.out.println("\n1. View timetable\n2. Register for session\n3. Cancel registration\n4. View registered sessions\n5. Exit");
             System.out.print("Enter your choice: ");
             int choice = 0;
             try{
@@ -104,6 +121,9 @@ public class FitAll {
                     cancelRegistration();
                     break;
                 case 4:
+                    viewRegisteredSessions();
+                    break;
+                case 5:
                     //ends program by returning to main method which has finished itself
                     return;
                 default:
@@ -116,6 +136,7 @@ public class FitAll {
     //method prints the timetable by firstly printing the first row then iterating the printSession method which
     //prints an individual new row that contains the contents of the timetable
     private void printTimetable() {
+        //shows number of registered sessions
         System.out.println("\nNumber of registered sessions:" + registeredSessionsNumber);
         //each entry has a space of 10 characters so it can be formatted nicely
         System.out.printf("\n%-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "SessionID", "Name", "Level", "Day", "Time", "Duration", "Spaces");
@@ -223,5 +244,24 @@ public class FitAll {
             //Displays message if user fails to cancel registration
             System.out.println("\nIncorrect ID.\nCheck the table and try again. ");
         }
+    }
+
+    //method used to show what sessions the user has registered for
+    private void viewRegisteredSessions() {
+       //boolean exists used to display message if all values in registeredSessions are set to -1
+       boolean exists = false;
+       System.out.println("\nThese are your registered sessions:\n");
+       for (int i = 0; i < registeredSessions.length; i++) {
+           //if value is not -1, it means the user has registered for that session
+           //so session will be printed
+           if (registeredSessions[i] != -1) {
+               sessions[i].printRegiateredSession();
+               exists = true;
+           }
+       }
+       //displays message if user has not registered for any sessions
+       if (exists == false) {
+            System.out.println("You have not registered for any sessions.");
+       }
     }
 }
